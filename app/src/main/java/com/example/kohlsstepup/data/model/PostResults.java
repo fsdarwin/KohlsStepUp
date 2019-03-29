@@ -14,7 +14,7 @@ public class PostResults implements Parcelable
 
     @SerializedName("Post")
     @Expose
-    private ArrayList<Post> posts = null;
+    private List<Post> posts = null;
     public final static Creator<PostResults> CREATOR = new Creator<PostResults>() {
 
 
@@ -39,11 +39,11 @@ public class PostResults implements Parcelable
     public PostResults() {
     }
 
-    public ArrayList<Post> getPosts() {
+    public List<Post> getPosts() {
         return posts;
     }
 
-    public void setPost(ArrayList<Post> posts) {
+    public void setPost(List<Post> posts) {
         this.posts = posts;
     }
 

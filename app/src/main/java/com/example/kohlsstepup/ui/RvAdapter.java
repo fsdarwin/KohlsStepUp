@@ -10,19 +10,16 @@ import android.widget.TextView;
 
 import com.example.kohlsstepup.R;
 import com.example.kohlsstepup.data.model.Post;
-
-import java.util.ArrayList;
-
-import retrofit2.Call;
+import java.util.List;
 
 public class RvAdapter extends RecyclerView.Adapter<RvAdapter.ViewHolder> {
 
-    ArrayList<Post> postArrayList;
+    List<Post> postList;
     public static final String TAG = "FRANK: ";
     //CallTask result;
 
-    public RvAdapter(ArrayList<Post> postArrayList) {
-        this.postArrayList = postArrayList;
+    public RvAdapter(List<Post> postList) {
+        this.postList = postList;
     }
 
     @NonNull
@@ -35,7 +32,7 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull RvAdapter.ViewHolder viewHolder, int position) {
 
-        Post post = postArrayList.get(position);
+        Post post = postList.get(position);
         if (post != null){
             viewHolder.setItemPost(post);
             String title = post.getTitle();
@@ -47,7 +44,7 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return postArrayList!= null ? postArrayList.size() : 0;
+        return postList!= null ? postList.size() : 0;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
