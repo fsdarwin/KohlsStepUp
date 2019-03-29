@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         Log.d(TAG, "onCreate: ");
 
-        ApiHelper.RemoteService.getPosts(new Callback<List<Post>>() {
+        remoteService.getPosts().enqueue(new Callback<List<Post>>() {
             @Override
             public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
                 List<Post> postList = response.body();
