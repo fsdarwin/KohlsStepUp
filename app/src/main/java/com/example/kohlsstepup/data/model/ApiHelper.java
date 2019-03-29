@@ -19,7 +19,7 @@ public class ApiHelper {
         return retrofit;
     }
 
-    public static Call<ArrayList<Post>> getPosts() {
+    public static Call<PostResults> getPosts() {
         Retrofit retrofit = createRetrofitInstance();
         RemoteService remoteService = retrofit.create(RemoteService.class);
         return remoteService.getPosts();
@@ -27,6 +27,6 @@ public class ApiHelper {
 
     public interface RemoteService {
         @GET("posts")
-        Call<ArrayList<Post>> getPosts();
+        Call<PostResults> getPosts();
     }
 }

@@ -13,6 +13,8 @@ import com.example.kohlsstepup.data.model.Post;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
+
 public class RvAdapter extends RecyclerView.Adapter<RvAdapter.ViewHolder> {
 
     ArrayList<Post> postArrayList;
