@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "FRANK ";
     RecyclerView recyclerView;
+    List<Post> postList;
     RvAdapter rvAdapter;
     ApiHelper.RemoteService remoteService;
 
@@ -36,9 +37,19 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.RecView);
         recyclerView.setLayoutManager(layoutManager);
         Log.d(TAG, "onCreate: ");
-        Call<List<Post>> postList;
-        postList.enqueue()= remoteService.getPosts();
-        rvAdapter = new RvAdapter(postList);
-        recyclerView.setAdapter(rvAdapter);
+
+        ApiHelper.RemoteService.getPosts(new Callback<List<Post>>() {
+            @Override
+            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+                List<Post> postList = response.body();
+                rvAdapter = new RvAdapter(postList);
+                recyclerView.setAdapter(rvAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<List<Post>> call, Throwable t) {
+                Log.d(TAG, "onFailure: " + t.toString());
+            }
+        });
     }
 }
