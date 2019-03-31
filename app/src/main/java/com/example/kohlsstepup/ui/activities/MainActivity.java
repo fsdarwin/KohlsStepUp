@@ -1,31 +1,30 @@
-package com.example.kohlsstepup.ui.main;
+package com.example.kohlsstepup.ui.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.widget.Toast;
+import android.view.View;
 
 import com.example.kohlsstepup.R;
 import com.example.kohlsstepup.data.model.ApiHelper;
 import com.example.kohlsstepup.data.model.Post;
 import com.example.kohlsstepup.ui.RvAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RvAdapter.ItemClickListener {
 
     public static final String TAG = "FRANK ";
     RecyclerView recyclerView;
     List<Post> postList;
     RvAdapter rvAdapter;
-    ApiHelper.RemoteService remoteService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,5 +50,16 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "onFailure: " + t.toString());
             }
         });
+    }
+
+    public void onClick(View view, int position) {
+        final Post post = postList.get(position);
+        Intent passIntent = new Intent(this, DetailsActivity.class);
+        passIntent.putExtra("id", post.getId());
+        passIntent.putExtra("userId", post.getUserId());
+        passIntent.putExtra("title", post.getTitle());
+        passIntent.putExtra("body", post.getBody());
+        Log.i("body", post.getTitle());
+        startActivity(passIntent);
     }
 }

@@ -10,12 +10,14 @@ import android.widget.TextView;
 
 import com.example.kohlsstepup.R;
 import com.example.kohlsstepup.data.model.Post;
+
 import java.util.List;
 
 public class RvAdapter extends RecyclerView.Adapter<RvAdapter.ViewHolder> {
 
     List<Post> postList;
     public static final String TAG = "FRANK: ";
+    private ItemClickListener clickListener;
     //CallTask result;
 
     public RvAdapter(List<Post> postList) {
@@ -33,10 +35,9 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull RvAdapter.ViewHolder viewHolder, int position) {
 
         Post post = postList.get(position);
-        if (post != null){
+        if (post != null) {
             viewHolder.setItemPost(post);
             String title = post.getTitle();
-            Log.d(TAG, "onBindViewHolder: " + title);
 
             viewHolder.tv_Title.setText(title);
         }
@@ -44,7 +45,7 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return postList!= null ? postList.size() : 0;
+        return postList != null ? postList.size() : 0;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -58,14 +59,21 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.ViewHolder> {
             tv_Title = itemView.findViewById(R.id.tvTitle);
         }
 
-        public void setItemPost (Post itemPost){
+        public void setItemPost(Post itemPost) {
             this.itemPost = itemPost;
         }
 
         @Override
-        public void onClick(View v) {
-
+        public void onClick(View view) {
+            if (clickListener != null) {
+                clickListener.onClick(view, getAdapterPosition());
+                Log.d(TAG, "onClick:");
+            }
         }
+    }
+
+    public interface ItemClickListener {
+        void onClick(View view, int position);
     }
 }
 
