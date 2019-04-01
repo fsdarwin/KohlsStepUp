@@ -28,9 +28,15 @@ public class DetailsActivity extends AppCompatActivity {
         tv_Body = findViewById(R.id.tv_body);
 
         Intent passedIntent = getIntent();
-        String userId = passedIntent.getExtras().getString("userId");
-        Log.d(TAG, "onCreate: " + userId);
-        //tv_UserId.setText(passedIntent.getExtras("userId"));
+        String id =  "ID: " + passedIntent.getStringExtra("id");
+        String userId = "UserID: " + passedIntent.getStringExtra("userId");
+        String title = "Title: " + passedIntent.getStringExtra("title");
+        String body = "Body: " + passedIntent.getStringExtra("body");
+        Log.d(TAG, "onCreate: " + userId + " " + id + " " + title + " " + body);
+        tv_UserId.setText(userId);
+        tv_Id.setText(id);
+        tv_Title.setText(title);
+        tv_Body.setText(body);
 
     }
 }

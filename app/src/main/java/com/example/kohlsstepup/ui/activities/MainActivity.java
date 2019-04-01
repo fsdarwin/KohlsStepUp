@@ -19,7 +19,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity implements RvAdapter.ItemClickListener {
+public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "FRANK ";
     RecyclerView recyclerView;
@@ -40,8 +40,23 @@ public class MainActivity extends AppCompatActivity implements RvAdapter.ItemCli
         ApiHelper.getPosts().enqueue(new Callback<List<Post>>() {
             @Override
             public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
-                List<Post> postList = response.body();
+                final List<Post> postList = response.body();
+                //Finish setting up the RecyclerView after the respose sets the post list
                 rvAdapter = new RvAdapter(postList);
+                //Set the click listener to send the selected item over to DetailsActivity
+                rvAdapter.setOnEntryClickListener(new RvAdapter.OnEntryClickListener() {
+                    @Override
+                    public void onEntryClick(View view, int position) {
+                        Post post = postList.get(position);
+                        Intent passIntent = new Intent(getApplicationContext(), DetailsActivity.class);
+                        passIntent.putExtra("id", post.getId());
+                        passIntent.putExtra("userId", post.getUserId());
+                        passIntent.putExtra("title", post.getTitle());
+                        passIntent.putExtra("body", post.getBody());
+                        Log.i("id", post.getId());
+                        startActivity(passIntent);
+                    }
+                });
                 recyclerView.setAdapter(rvAdapter);
             }
 
@@ -50,16 +65,5 @@ public class MainActivity extends AppCompatActivity implements RvAdapter.ItemCli
                 Log.d(TAG, "onFailure: " + t.toString());
             }
         });
-    }
-
-    public void onClick(View view, int position) {
-        final Post post = postList.get(position);
-        Intent passIntent = new Intent(this, DetailsActivity.class);
-        passIntent.putExtra("id", post.getId());
-        passIntent.putExtra("userId", post.getUserId());
-        passIntent.putExtra("title", post.getTitle());
-        passIntent.putExtra("body", post.getBody());
-        Log.i("body", post.getTitle());
-        startActivity(passIntent);
     }
 }

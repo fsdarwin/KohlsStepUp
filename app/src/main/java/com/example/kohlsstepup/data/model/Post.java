@@ -12,10 +12,10 @@ public class Post implements Parcelable
 
     @SerializedName("userId")
     @Expose
-    private Integer userId;
+    private String userId;
     @SerializedName("id")
     @Expose
-    private Integer id;
+    private String id;
     @SerializedName("title")
     @Expose
     private String title;
@@ -40,8 +40,8 @@ public class Post implements Parcelable
     ;
 
     protected Post(Parcel in) {
-        this.userId = ((Integer) in.readValue((Integer.class.getClassLoader())));
-        this.id = ((Integer) in.readValue((Integer.class.getClassLoader())));
+        this.userId = ((String) in.readValue((String.class.getClassLoader())));
+        this.id = ((String) in.readValue((String.class.getClassLoader())));
         this.title = ((String) in.readValue((String.class.getClassLoader())));
         this.body = ((String) in.readValue((String.class.getClassLoader())));
     }
@@ -49,19 +49,19 @@ public class Post implements Parcelable
     public Post() {
     }
 
-    public Integer getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

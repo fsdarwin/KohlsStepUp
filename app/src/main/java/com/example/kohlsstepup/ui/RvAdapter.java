@@ -17,11 +17,18 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.ViewHolder> {
 
     List<Post> postList;
     public static final String TAG = "FRANK: ";
-    private ItemClickListener clickListener;
-    //CallTask result;
+    private OnEntryClickListener mOnEntryClickListener;
 
     public RvAdapter(List<Post> postList) {
         this.postList = postList;
+    }
+    //This interface allows Main activity to access the clicklistener set in the viewholder
+    public interface OnEntryClickListener {
+        void onEntryClick(View view, int position);
+    }
+    //This method allows the clicklistener to be set in another activity / fragment
+    public void setOnEntryClickListener(OnEntryClickListener onEntryClickListener) {
+        mOnEntryClickListener = onEntryClickListener;
     }
 
     @NonNull
@@ -57,6 +64,8 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.ViewHolder> {
             super(itemView);
 
             tv_Title = itemView.findViewById(R.id.tvTitle);
+            //Set the clicklistener
+            itemView.setOnClickListener(this);
         }
 
         public void setItemPost(Post itemPost) {
@@ -64,16 +73,12 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.ViewHolder> {
         }
 
         @Override
-        public void onClick(View view) {
-            if (clickListener != null) {
-                clickListener.onClick(view, getAdapterPosition());
-                Log.d(TAG, "onClick:");
+        public void onClick(View v) {
+            // This sets the clicklistener for the items
+            if (mOnEntryClickListener != null) {
+                mOnEntryClickListener.onEntryClick(v, getLayoutPosition());
             }
         }
-    }
-
-    public interface ItemClickListener {
-        void onClick(View view, int position);
     }
 }
 
