@@ -10,6 +10,8 @@ import com.example.kohlsstepup.R;
 import com.example.kohlsstepup.data.model.ApiHelper;
 import com.example.kohlsstepup.data.model.Post;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -40,14 +42,14 @@ public class DetailsActivity extends AppCompatActivity {
         final String passedUserId = passedIntent.getStringExtra("userId");
         Log.d(TAG, "onCreate: userId: " + passedUserId + " Id: " + passedId);
         //Make repository call using userId and id
-        ApiHelper.getPost(passedUserId, passedId).enqueue(new Callback<Post>() {
+        ApiHelper.getPost(passedUserId, passedId).enqueue(new Callback<List<Post>>() {
             @Override
-            public void onResponse(Call<Post> call, Response<Post> response) {
-                Post post = response.body();
-                String id = "ID: " + post.getId();
-                String userId = "UserId: " + post.getUserId();
-                String title = "Title: " + post.getTitle();
-                String body = "Body: " + post.getBody();
+            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+                List<Post> post = response.body();
+                String id = "ID: " + post.get(0).getId();
+                String userId = "UserId: " + post.get(0).getUserId();
+                String title = "Title: " + post.get(0).getTitle();
+                String body = "Body: " + post.get(0).getBody();
                 Log.d(TAG, "onCreate: " + userId + " " + id + " " + title + " " + body);
                 tv_UserId.setText(userId);
                 tv_Id.setText(id);
@@ -56,8 +58,8 @@ public class DetailsActivity extends AppCompatActivity {
                             }
 
             @Override
-            public void onFailure(Call<Post> call, Throwable t) {
-                Log.d(TAG, "onFailure: " + t.toString());
+            public void onFailure(Call<List<Post>> call, Throwable t) {
+                Log.d(TAG, "Details Activity onFailure: " + t.toString());
             }
         });
 

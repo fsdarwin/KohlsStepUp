@@ -32,7 +32,7 @@ public class ApiHelper {
         return remoteService.getPosts();
     }
 
-    public static Call<Post> getPost(String userId, String id) {
+    public static Call<List<Post>> getPost(String userId, String id) {
         Retrofit retrofit = createRetrofitInstance();
         RemoteService remoteService = retrofit.create(RemoteService.class);
         Log.d(TAG, "getPost (1) : userId: " + userId + " id: " + id);
@@ -44,6 +44,6 @@ public class ApiHelper {
         Call<List<Post>> getPosts();
 
         @GET("posts")
-        Call<Post> getPost(@Query("userId") String userId, @Query("id") String id);
+        Call<List<Post>> getPost(@Query("userId") String userId, @Query("id") String id);
     }
 }
