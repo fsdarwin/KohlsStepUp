@@ -8,6 +8,7 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
+import retrofit2.http.Query;
 
 import static com.example.kohlsstepup.data.model.Constants.BASE_URL;
 
@@ -31,8 +32,18 @@ public class ApiHelper {
         return remoteService.getPosts();
     }
 
+    public static Call<Post> getPost(String userId, String id) {
+        Retrofit retrofit = createRetrofitInstance();
+        RemoteService remoteService = retrofit.create(RemoteService.class);
+        Log.d(TAG, "getPost (1) : userId: " + userId + " id: " + id);
+        return remoteService.getPost(userId, id);
+    }
+
     public interface RemoteService {
         @GET("posts")
         Call<List<Post>> getPosts();
+
+        @GET("posts")
+        Call<Post> getPost(@Query("userId") String userId, @Query("id") String id);
     }
 }

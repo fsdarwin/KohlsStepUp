@@ -51,9 +51,7 @@ public class MainActivity extends AppCompatActivity {
                         Intent passIntent = new Intent(getApplicationContext(), DetailsActivity.class);
                         passIntent.putExtra("id", post.getId());
                         passIntent.putExtra("userId", post.getUserId());
-                        passIntent.putExtra("title", post.getTitle());
-                        passIntent.putExtra("body", post.getBody());
-                        Log.i("id", post.getId());
+                        Log.i("toDetails: userId", post.getUserId() + " id: " + post.getId());
                         startActivity(passIntent);
                     }
                 });

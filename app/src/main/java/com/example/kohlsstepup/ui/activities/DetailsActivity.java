@@ -7,6 +7,12 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.example.kohlsstepup.R;
+import com.example.kohlsstepup.data.model.ApiHelper;
+import com.example.kohlsstepup.data.model.Post;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class DetailsActivity extends AppCompatActivity {
 
@@ -27,16 +33,33 @@ public class DetailsActivity extends AppCompatActivity {
         tv_Title = findViewById(R.id.tv_title);
         tv_Body = findViewById(R.id.tv_body);
 
+        //Get passedIntent
         Intent passedIntent = getIntent();
-        String id =  "ID: " + passedIntent.getStringExtra("id");
-        String userId = "UserID: " + passedIntent.getStringExtra("userId");
-        String title = "Title: " + passedIntent.getStringExtra("title");
-        String body = "Body: " + passedIntent.getStringExtra("body");
-        Log.d(TAG, "onCreate: " + userId + " " + id + " " + title + " " + body);
-        tv_UserId.setText(userId);
-        tv_Id.setText(id);
-        tv_Title.setText(title);
-        tv_Body.setText(body);
+        //Get userId and message id from intent
+        final String passedId =  passedIntent.getStringExtra("id");
+        final String passedUserId = passedIntent.getStringExtra("userId");
+        Log.d(TAG, "onCreate: userId: " + passedUserId + " Id: " + passedId);
+        //Make repository call using userId and id
+        ApiHelper.getPost(passedUserId, passedId).enqueue(new Callback<Post>() {
+            @Override
+            public void onResponse(Call<Post> call, Response<Post> response) {
+                Post post = response.body();
+                String id = "ID: " + post.getId();
+                String userId = "UserId: " + post.getUserId();
+                String title = "Title: " + post.getTitle();
+                String body = "Body: " + post.getBody();
+                Log.d(TAG, "onCreate: " + userId + " " + id + " " + title + " " + body);
+                tv_UserId.setText(userId);
+                tv_Id.setText(id);
+                tv_Title.setText(title);
+                tv_Body.setText(body);
+                            }
+
+            @Override
+            public void onFailure(Call<Post> call, Throwable t) {
+                Log.d(TAG, "onFailure: " + t.toString());
+            }
+        });
 
     }
 }
